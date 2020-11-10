@@ -1,4 +1,4 @@
-const url = "http://localhost:3000/api/furniture/"; 
+const url = "http://localhost:3000/api/furniture/";  // Url de l'api
 const container = document.querySelector('.container'); // Endroit visé pour les produits
 console.log(".container");
 
@@ -7,7 +7,7 @@ const fetchProducts = async() =>{
 	try {
 		const response = await fetch(url);
 		return await response.json();
-	} catch (error){
+	} catch (error){  // si erreur
 		container.innerHTML +=`
 		 <p class="error">Une erreur est survenue!</p>
 		 <p class="error">Veuillez réessayer, merci de votre compréhension</p>
@@ -34,6 +34,6 @@ fetchProducts().then(data =>{
 		</div>
 		 `).join("");
 
-		container.innerHTML +=` <div class="products">${furnitures}</div>`;
+		container.innerHTML +=` <div class="products">${furnitures}</div>`; // création des box
 });
 
