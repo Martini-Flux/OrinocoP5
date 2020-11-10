@@ -1,7 +1,7 @@
-const url = "http://localhost:3000/api/furniture"; 
-const urlPost = "http://localhost:3000/api/furniture/order"; 
+const url = "http://localhost:3000/api/furniture";  // Url de l'api
+const urlPost = "http://localhost:3000/api/furniture/order";  // Url de la requête
 
-const container = document.querySelector(".container"); 
+const container = document.querySelector(".container"); // Endroit visé
 
 // Récupération
 const fetchProducts = async () => {
@@ -17,13 +17,13 @@ const fetchProducts = async () => {
   }
 };
 
-fetchProducts().then(data => {
+fetchProducts().then(data => {  // Reprend les données du tableau récupéré
   const formatter = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }); 
   
   const cartContent = JSON.parse(localStorage.getItem("cartContent")); 
-  let priceCounter = 0; 
+  let priceCounter = 0;  // Compteur de somme totale
 
-  if (!localStorage.getItem("cartContent")) {
+  if (!localStorage.getItem("cartContent")) {  
     container.innerHTML += `<p class="empty">Votre panier est vide.</p>`;
   } else {
     const cartItems = cartContent.map(itemId => {
@@ -39,7 +39,7 @@ fetchProducts().then(data => {
           <td class="text-right">${formatter.format(cartItem.price / 100)}</td>
         </tr>
       `;
-    }).join("");
+    }).join(""); // Assemble les informations
 
     container.innerHTML += `
       <table class="table">
@@ -55,7 +55,7 @@ fetchProducts().then(data => {
 
     container.innerHTML += `<p class=" total-price">Total : ${formatter.format(priceCounter / 100)}</p>`; 
 
- 
+ // Création du formulaire de contact
     container.innerHTML += `
       <form class="mt-5 validation-form">
         <input type="text" class="form-control" id="firstName" placeholder="Prénom" pattern="^[-'a-zA-ZÀ-ÖØ-öø-ÿ ]{2,30}$" title="2 à 30 lettres, sans accents ni caractères spéciaux." required>
@@ -77,24 +77,24 @@ fetchProducts().then(data => {
         const targetTr = event.target.parentElement.parentElement; 
         const index = array.indexOf(targetTr); 
         
-        if (array.length === 1) {
+        if (array.length === 1) {  // Suprime le tableau entier si il n'y a qu'un seul produit
           localStorage.removeItem("cartContent");
           window.location.reload();
-        } else {
+        } else {  // Suprime individuellement
           cartContent.splice(index, 1);
           localStorage.setItem("cartContent", JSON.stringify(cartContent));
           window.location.reload();
         }
       }
     });
-
+ // Envoi le formulaire et les produits
     const form = document.querySelector(".validation-form"); 
     const { firstName, lastName, address, city, email } = form;
 
     // À la soumission du formulaire
     form.addEventListener("submit", event => {
       event.preventDefault();
- 
+ // Envoi de la commande
       const postProducts = async () => {
         try {
           const response = await fetch(urlPost, {
@@ -121,11 +121,11 @@ fetchProducts().then(data => {
       };
 
       postProducts().then((orderData) => {
-        localStorage.clear();
-        localStorage.setItem("orderData", JSON.stringify(orderData)); 
+        localStorage.clear(); // Reset 
+        localStorage.setItem("orderData", JSON.stringify(orderData)); // Enregistre les informations
         localStorage.setItem("orderPrice", formatter.format(priceCounter / 100));
         if (localStorage.getItem("orderData") !== "undefined") {
-          window.location.href = "confirmation.html";
+          window.location.href = "confirmation.html"; // Redirige vers la confirmation
         }
       });
     });
