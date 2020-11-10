@@ -21,7 +21,7 @@ const fetchProduct = async () => {
 fetchProduct().then(data => {
   const formatter = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
   
-  container.innerHTML += `
+  container.innerHTML += `  
     <div class="card">
       <img class="img-produit" src="${data.imageUrl}" alt="Meuble ${data.name}">
       <div class="desc-prod">
@@ -39,11 +39,11 @@ fetchProduct().then(data => {
   `;
 
 
-  const addToCart = document.querySelector(".btn-cart"); 
+  const addToCart = document.querySelector(".btn-cart"); // Cible le bouton
 
   addToCart.addEventListener("click", () => {
     const cartContent = JSON.parse(localStorage.getItem("cartContent")) || []; 
-    cartContent.push(id);
+    cartContent.push(id); // Ajoute un produit au tableau
     localStorage.setItem("cartContent", JSON.stringify(cartContent)); 
   });
 });
