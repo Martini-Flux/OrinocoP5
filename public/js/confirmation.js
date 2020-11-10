@@ -1,7 +1,7 @@
-const container = document.querySelector(".container");
+const container = document.querySelector(".container"); // endroit visé
 
-if (localStorage.getItem("orderData") && localStorage.getItem("orderPrice")){
-	const orderData = JSON.parse(localStorage.orderData);
+// Vérification des informations
+if (localStorage.getItem("orderData") && localStorage.getItem("orderPrice")){ 	const orderData = JSON.parse(localStorage.orderData);
 	const firstName = Object.values(orderData.contact.firstName).join("");
 	const orderId = Object.values(orderData.orderId).join("");
 	const price = localStorage.getItem("orderPrice");
